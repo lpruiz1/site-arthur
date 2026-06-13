@@ -110,8 +110,8 @@ function LetterModal({ letter, onClose }: { letter: typeof LETTERS[0]; onClose: 
   const paragraphs = letter.text.split("\n\n").filter(Boolean)
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center" style={{ background: "#000000cc", backdropFilter: "blur(10px)" }}>
-      <div className="w-full max-w-sm rounded-t-3xl sm:rounded-3xl overflow-hidden animate-entrance" style={{ background: "linear-gradient(135deg, #0d0005, #1a0a1e)", border: `2px solid ${letter.color}55`, boxShadow: `0 0 60px ${letter.color}22`, maxHeight: "90vh", display: "flex", flexDirection: "column" }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: "#000000cc", backdropFilter: "blur(10px)" }}>
+      <div className="w-full max-w-sm rounded-3xl overflow-hidden animate-entrance" style={{ background: "linear-gradient(135deg, #0d0005, #1a0a1e)", border: `2px solid ${letter.color}55`, boxShadow: `0 0 60px ${letter.color}22`, maxHeight: "90vh", display: "flex", flexDirection: "column" }}>
         <div className="flex items-center justify-between px-6 pt-6 pb-4 flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0" style={{ border: `2px solid ${letter.color}66` }}>
@@ -127,11 +127,11 @@ function LetterModal({ letter, onClose }: { letter: typeof LETTERS[0]; onClose: 
         <div className="h-px mx-6" style={{ background: `linear-gradient(90deg, transparent, ${letter.color}44, transparent)` }} />
         <div className="overflow-y-auto flex-1 px-6 py-5">
           <div className="rounded-2xl p-5 space-y-3" style={{ background: "#ffffff07" }}>
-            <p className="font-elegant italic text-lg leading-relaxed" style={{ color: "#f5e6d3cc" }}>Kethellen,</p>
+            <p className="font-elegant italic text-lg leading-relaxed" style={{ color: "#f5e6d3cc" }}></p>
             {paragraphs.map((p, i) => (
               <p key={i} className="font-elegant italic text-base leading-relaxed" style={{ color: "#f5e6d3aa" }}>{p}</p>
             ))}
-            <p className="font-elegant italic text-base leading-relaxed text-right mt-2" style={{ color: letter.color }}>— {letter.from} 💛</p>
+            <p className="font-elegant italic text-base leading-relaxed text-right mt-2" style={{ color: letter.color }}>— {letter.from}</p>
           </div>
         </div>
         <div className="px-6 pb-6 pt-3 flex-shrink-0">
