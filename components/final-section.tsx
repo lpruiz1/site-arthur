@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { createPortal } from "react-dom"
 import confetti from "canvas-confetti"
 import { useAudio } from "@/lib/audio-context"
 
@@ -28,55 +27,12 @@ interface Celebrant {
 
 let celebId = 0
 
-function CelebrantsPortal({ celebrants }: { celebrants: Celebrant[] }) {
-  if (typeof document === "undefined") return null
-  return createPortal(
-    <>
-      <style>{`
-        @keyframes celebrant-rise {
-          0%   { transform: translateY(0) scale(0.5); opacity: 0; }
-          10%  { opacity: 1; }
-          60%  { transform: translateY(-65vh) scale(1.1); opacity: 1; }
-          100% { transform: translateY(-90vh) scale(0.85); opacity: 0; }
-        }
-      `}</style>
-      {celebrants.map(c => (
-        <img
-          key={c.id}
-          src={c.src}
-          alt=""
-          aria-hidden
-          style={{
-            position: "fixed",
-            bottom: 0,
-            left: `${c.x}%`,
-            width: c.size,
-            height: "auto",
-            objectFit: "contain",
-            pointerEvents: "none",
-            zIndex: 9999,
-            animationName: "celebrant-rise",
-            animationDuration: "2.6s",
-            animationDelay: `${c.delay}ms`,
-            animationTimingFunction: "ease-out",
-            animationFillMode: "both",
-          }}
-        />
-      ))}
-    </>,
-    document.body
-  )
-}
-
 export function FinalSection() {
   const [visible, setVisible] = useState(false)
   const [celebrants, setCelebrants] = useState<Celebrant[]>([])
-  const [mounted, setMounted] = useState(false)
   const { changeSong } = useAudio()
   const ref = useRef<HTMLElement>(null)
   const musicPlayedRef = useRef(false)
-
-  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => {
@@ -106,10 +62,9 @@ export function FinalSection() {
     const newCelebs: Celebrant[] = CELEBS.map((src, i) => ({
       id: celebId++,
       src,
-      // distribui em 10 posições ao longo da tela: 5% a 90%
-      x: 5 + i * 9,
+      x: 3 + i * 10,   // distribui de 3% a 93%
       delay: i * 130,
-      size: 80 + Math.floor(Math.random() * 60),
+      size: 80 + Math.floor(Math.random() * 55),
     }))
 
     setCelebrants(prev => [...prev, ...newCelebs])
@@ -117,12 +72,44 @@ export function FinalSection() {
     setTimeout(() => {
       const ids = new Set(newCelebs.map(c => c.id))
       setCelebrants(prev => prev.filter(c => !ids.has(c.id)))
-    }, 3200)
+    }, 3500)
   }
 
   return (
     <>
-      {mounted && <CelebrantsPortal celebrants={celebrants} />}
+      {/* Personagens — fora da section, sem nenhum overflow no caminho */}
+      <style>{`
+        @keyframes celebrant-rise {
+          0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+          12%  { opacity: 1; }
+          60%  { transform: translateY(-60vh) scale(1.05); opacity: 1; }
+          100% { transform: translateY(-88vh) scale(0.8); opacity: 0; }
+        }
+      `}</style>
+
+      {celebrants.map(c => (
+        <img
+          key={c.id}
+          src={c.src}
+          alt=""
+          aria-hidden
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: `${c.x}%`,
+            width: c.size,
+            height: "auto",
+            objectFit: "contain",
+            pointerEvents: "none",
+            zIndex: 9999,
+            animationName: "celebrant-rise",
+            animationDuration: "2.6s",
+            animationDelay: `${c.delay}ms`,
+            animationTimingFunction: "ease-out",
+            animationFillMode: "both",
+          }}
+        />
+      ))}
 
       <section
         ref={ref}
@@ -153,8 +140,9 @@ export function FinalSection() {
           <div className="w-full rounded-3xl p-6 space-y-4 text-center" style={{ background: "linear-gradient(135deg, #1a0010, #0d0005)", border: "1px solid #d4af7a33", boxShadow: "0 0 40px #d4af7a11" }}>
             <p className="font-display text-xl font-bold" style={{ color: "#d4af7a" }}>Que esse ano seja incrível</p>
             <p className="font-elegant italic text-base leading-relaxed" style={{ color: "#f5e6d3aa" }}>
-              Cheio de momentos inesquecíveis, e de toda a felicidade que você merece.
+              Cheio de momentos inesquecíveis, e de toda a felicidade que você merece. 💛
             </p>
+            <p className="font-elegant italic text-sm" style={{ color: "#ff6b9d88" }}>Com muito amor, de quem fez esse site pra você ✨</p>
           </div>
 
           <div className="gold-line w-32 mx-auto" />

@@ -92,14 +92,22 @@ export function BirthdayApp() {
   const CurrentSection = SECTION_COMPONENTS[current]
 
   return (
-    <div className="relative min-h-screen overflow-hidden" style={{ background: "#000" }}
-      onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-      <div className="min-h-screen" style={{
-        paddingBottom: 96,
-        opacity: animating ? 0 : 1,
-        transform: animating ? `translateX(${direction === "right" ? "-24px" : "24px"})` : "translateX(0)",
-        transition: "opacity 0.28s ease, transform 0.28s ease",
-      }}>
+    // ⚠️ overflow-hidden REMOVIDO — quebra position:fixed no iOS Safari
+    <div
+      className="relative min-h-screen"
+      style={{ background: "#000", overflowX: "clip" }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div
+        className="min-h-screen"
+        style={{
+          paddingBottom: 96,
+          opacity: animating ? 0 : 1,
+          transform: animating ? `translateX(${direction === "right" ? "-24px" : "24px"})` : "translateX(0)",
+          transition: "opacity 0.28s ease, transform 0.28s ease",
+        }}
+      >
         <CurrentSection />
       </div>
 
