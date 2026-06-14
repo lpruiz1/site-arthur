@@ -17,22 +17,16 @@ const CELEBS = [
   "/celebs/celeb10.png",
 ]
 
-interface Celebrant {
-  id: number
-  src: string
-  x: number
-  delay: number
-  size: number
-}
-
-let celebId = 0
+// Ângulos de explosão para cada personagem (em graus, 0 = direita)
+const ANGLES = [0, 36, 72, 108, 144, 180, 216, 252, 288, 324]
 
 export function FinalSection() {
   const [visible, setVisible] = useState(false)
-  const [celebrants, setCelebrants] = useState<Celebrant[]>([])
+  const [exploding, setExploding] = useState(false)
   const { changeSong } = useAudio()
   const ref = useRef<HTMLElement>(null)
   const musicPlayedRef = useRef(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => {
@@ -52,102 +46,114 @@ export function FinalSection() {
     const colors = ["#d4af7a", "#ff6b9d", "#9b59b6", "#fff", "#ff8c42"]
     const end = Date.now() + 3000
     const burst = () => {
-      confetti({ particleCount: 10, angle: 60, spread: 90, origin: { x: 0 }, colors })
-      confetti({ particleCount: 10, angle: 120, spread: 90, origin: { x: 1 }, colors })
-      confetti({ particleCount: 8, spread: 140, origin: { x: 0.5, y: 0.5 }, colors })
+      confetti({ particleCount: 12, angle: 60,  spread: 90, origin: { x: 0 },   colors })
+      confetti({ particleCount: 12, angle: 120, spread: 90, origin: { x: 1 },   colors })
+      confetti({ particleCount: 10, spread: 140, origin: { x: 0.5, y: 0.4 },    colors })
       if (Date.now() < end) requestAnimationFrame(burst)
     }
     burst()
 
-    const newCelebs: Celebrant[] = CELEBS.map((src, i) => ({
-      id: celebId++,
-      src,
-      x: 3 + i * 10,   // distribui de 3% a 93%
-      delay: i * 130,
-      size: 80 + Math.floor(Math.random() * 55),
-    }))
-
-    setCelebrants(prev => [...prev, ...newCelebs])
-
-    setTimeout(() => {
-      const ids = new Set(newCelebs.map(c => c.id))
-      setCelebrants(prev => prev.filter(c => !ids.has(c.id)))
-    }, 3500)
+    setExploding(true)
+    clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => setExploding(false), 1400)
   }
 
   return (
-    <>
-      {/* Personagens — fora da section, sem nenhum overflow no caminho */}
+    <section
+      ref={ref}
+      className="min-h-screen flex flex-col items-center justify-center py-20 px-6 relative"
+      style={{ background: "radial-gradient(ellipse at bottom, #1a0010 0%, #000 70%)" }}
+    >
       <style>{`
-        @keyframes celebrant-rise {
-          0%   { transform: translateY(0) scale(0.5); opacity: 0; }
-          12%  { opacity: 1; }
-          60%  { transform: translateY(-60vh) scale(1.05); opacity: 1; }
-          100% { transform: translateY(-88vh) scale(0.8); opacity: 0; }
+        @keyframes celeb-explode {
+          0%   { transform: translate(-50%, -50%) translate(0, 0) scale(0.2) rotate(0deg); opacity: 0; }
+          15%  { opacity: 1; }
+          70%  { opacity: 1; }
+          100% { transform: translate(-50%, -50%) translate(var(--tx), var(--ty)) scale(1) rotate(var(--rot)); opacity: 0; }
         }
       `}</style>
 
-      {celebrants.map(c => (
-        <img
-          key={c.id}
-          src={c.src}
-          alt=""
-          aria-hidden
-          style={{
-            position: "fixed",
-            bottom: 0,
-            left: `${c.x}%`,
-            width: c.size,
-            height: "auto",
-            objectFit: "contain",
-            pointerEvents: "none",
-            zIndex: 9999,
-            animationName: "celebrant-rise",
-            animationDuration: "2.6s",
-            animationDelay: `${c.delay}ms`,
-            animationTimingFunction: "ease-out",
-            animationFillMode: "both",
-          }}
-        />
-      ))}
+      <div className={`w-full max-w-sm mx-auto flex flex-col items-center gap-10 text-center transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"}`}>
+        <div className="space-y-3 w-full">
+          <span className="font-elegant italic text-sm tracking-widest uppercase" style={{ color: "#d4af7a77" }}>seção final</span>
+          <h2 className="font-display font-black leading-none" style={{ fontSize: "clamp(2.4rem,11vw,3.6rem)", background: "linear-gradient(135deg, #d4af7a, #fff9e6, #d4af7a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", paddingBottom: "0.05em" }}>
+            Feliz Aniversário!
+          </h2>
+          <p className="font-elegant italic text-xl" style={{ color: "#ff6b9d" }}>🎂 Ketellen 🎂</p>
+        </div>
 
-      <section
-        ref={ref}
-        className="min-h-screen flex flex-col items-center justify-center py-20 px-6 relative"
-        style={{ background: "radial-gradient(ellipse at bottom, #1a0010 0%, #000 70%)" }}
-      >
-        <div className={`w-full max-w-sm mx-auto flex flex-col items-center gap-10 text-center transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"}`}>
-          <div className="space-y-3 w-full">
-            <span className="font-elegant italic text-sm tracking-widest uppercase" style={{ color: "#d4af7a77" }}>seção final</span>
-            <h2 className="font-display font-black leading-none" style={{ fontSize: "clamp(2.4rem,11vw,3.6rem)", background: "linear-gradient(135deg, #d4af7a, #fff9e6, #d4af7a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", paddingBottom: "0.05em" }}>
-              Feliz Aniversário!
-            </h2>
-            <p className="font-elegant italic text-xl" style={{ color: "#ff6b9d" }}>🎂 Ketellen 🎂</p>
-          </div>
+        {/* Container do bolo + personagens */}
+        <div className="relative flex items-center justify-center" style={{ width: 200, height: 200 }}>
+          {/* Personagens explodem a partir do centro do bolo */}
+          {CELEBS.map((src, i) => {
+            const angleRad = (ANGLES[i] * Math.PI) / 180
+            const dist = 160 // px de distância
+            const tx = Math.cos(angleRad) * dist
+            const ty = Math.sin(angleRad) * dist
+            const rot = (Math.random() - 0.5) * 60
 
+            return (
+              <img
+                key={i}
+                src={src}
+                alt=""
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  width: 72,
+                  height: 72,
+                  objectFit: "contain",
+                  pointerEvents: "none",
+                  zIndex: 10,
+                  opacity: 0,
+                  // CSS vars para a animação
+                  ["--tx" as string]: `${tx}px`,
+                  ["--ty" as string]: `${ty}px`,
+                  ["--rot" as string]: `${rot}deg`,
+                  // só anima quando exploding=true
+                  animation: exploding
+                    ? `celeb-explode 1.3s ease-out ${i * 40}ms both`
+                    : "none",
+                }}
+              />
+            )
+          })}
+
+          {/* Bolo */}
           <button
             onClick={launchCelebration}
-            className="transition-all active:scale-90 hover:scale-105 select-none"
-            style={{ fontSize: "clamp(6rem,26vw,9rem)", lineHeight: 1, filter: "drop-shadow(0 10px 40px #ff6b9d55)", WebkitTapHighlightColor: "transparent", animation: "float-gentle 3s ease-in-out infinite" }}
-            aria-label="Lançar confete">
+            className="relative z-20 transition-all active:scale-90 hover:scale-105 select-none"
+            style={{
+              fontSize: "clamp(6rem,26vw,9rem)",
+              lineHeight: 1,
+              filter: "drop-shadow(0 10px 40px #ff6b9d55)",
+              WebkitTapHighlightColor: "transparent",
+              animation: "float-gentle 3s ease-in-out infinite",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+            }}
+            aria-label="Explodir personagens">
             🎂
           </button>
-
-          <p className="font-elegant italic text-base" style={{ color: "#f5e6d355" }}>
-            toque no bolo para celebrar 🎉
-          </p>
-
-          <div className="w-full rounded-3xl p-6 space-y-4 text-center" style={{ background: "linear-gradient(135deg, #1a0010, #0d0005)", border: "1px solid #d4af7a33", boxShadow: "0 0 40px #d4af7a11" }}>
-            <p className="font-display text-xl font-bold" style={{ color: "#d4af7a" }}>Que esse ano seja incrível</p>
-            <p className="font-elegant italic text-base leading-relaxed" style={{ color: "#f5e6d3aa" }}>
-              Cheio de momentos inesquecíveis, e de toda a felicidade que você merece. 💛
-            </p>
-            <p className="font-elegant italic text-sm" style={{ color: "#ff6b9d88" }}>Com muito amor, de quem fez esse site pra você ✨</p>
-          </div>
-
-          <div className="gold-line w-32 mx-auto" />
         </div>
-      </section>
-    </>
+
+        <p className="font-elegant italic text-base" style={{ color: "#f5e6d355" }}>
+          toque no bolo para celebrar 🎉
+        </p>
+
+        <div className="w-full rounded-3xl p-6 space-y-4 text-center" style={{ background: "linear-gradient(135deg, #1a0010, #0d0005)", border: "1px solid #d4af7a33", boxShadow: "0 0 40px #d4af7a11" }}>
+          <p className="font-display text-xl font-bold" style={{ color: "#d4af7a" }}>Que esse ano seja incrível</p>
+          <p className="font-elegant italic text-base leading-relaxed" style={{ color: "#f5e6d3aa" }}>
+            Cheio de momentos inesquecíveis, e de toda a felicidade que você merece. 💛
+          </p>
+          <p className="font-elegant italic text-sm" style={{ color: "#ff6b9d88" }}>Com muito amor, de quem fez esse site pra você ✨</p>
+        </div>
+
+        <div className="gold-line w-32 mx-auto" />
+      </div>
+    </section>
   )
 }
