@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { createPortal } from "react-dom"
 import confetti from "canvas-confetti"
 import { useAudio } from "@/lib/audio-context"
 
@@ -22,9 +23,11 @@ const ANGLES = [0, 36, 72, 108, 144, 180, 216, 252, 288, 324]
 
 export function FinalSection() {
   const [visible, setVisible] = useState(false)
-  const [exploding, setExploding] = useState(false)
+  // burst guarda o ponto (x,y) na TELA de onde a explosão sai + um id pra forçar remount a cada toque
+  const [burst, setBurst] = useState<{ x: number; y: number; id: number } | null>(null)
   const { changeSong } = useAudio()
   const ref = useRef<HTMLElement>(null)
+  const cakeRef = useRef<HTMLButtonElement>(null)
   const musicPlayedRef = useRef(false)
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
 
@@ -42,20 +45,27 @@ export function FinalSection() {
     return () => obs.disconnect()
   }, [changeSong])
 
+  useEffect(() => () => clearTimeout(timeoutRef.current), [])
+
   const launchCelebration = () => {
     const colors = ["#d4af7a", "#ff6b9d", "#9b59b6", "#fff", "#ff8c42"]
     const end = Date.now() + 3000
-    const burst = () => {
+    const fire = () => {
       confetti({ particleCount: 12, angle: 60,  spread: 90, origin: { x: 0 },   colors })
       confetti({ particleCount: 12, angle: 120, spread: 90, origin: { x: 1 },   colors })
       confetti({ particleCount: 10, spread: 140, origin: { x: 0.5, y: 0.4 },    colors })
-      if (Date.now() < end) requestAnimationFrame(burst)
+      if (Date.now() < end) requestAnimationFrame(fire)
     }
-    burst()
+    fire()
 
-    setExploding(true)
+    // ponto central do bolo na tela -> a explosão sai exatamente daqui
+    const r = cakeRef.current?.getBoundingClientRect()
+    const x = r ? r.left + r.width / 2 : window.innerWidth / 2
+    const y = r ? r.top + r.height / 2 : window.innerHeight / 2
+
+    setBurst({ x, y, id: Date.now() }) // id novo => remonta => animação reinicia em todo toque
     clearTimeout(timeoutRef.current)
-    timeoutRef.current = setTimeout(() => setExploding(false), 1400)
+    timeoutRef.current = setTimeout(() => setBurst(null), 1900)
   }
 
   return (
@@ -82,47 +92,11 @@ export function FinalSection() {
           <p className="font-elegant italic text-xl" style={{ color: "#ff6b9d" }}>🎂 Ketellen 🎂</p>
         </div>
 
-        {/* Container do bolo + personagens */}
+        {/* Container do bolo */}
         <div className="relative flex items-center justify-center" style={{ width: 200, height: 200 }}>
-          {/* Personagens explodem a partir do centro do bolo */}
-          {CELEBS.map((src, i) => {
-            const angleRad = (ANGLES[i] * Math.PI) / 180
-            const dist = 160 // px de distância
-            const tx = Math.cos(angleRad) * dist
-            const ty = Math.sin(angleRad) * dist
-            const rot = (Math.random() - 0.5) * 60
-
-            return (
-              <img
-                key={i}
-                src={src}
-                alt=""
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  width: 72,
-                  height: 72,
-                  objectFit: "contain",
-                  pointerEvents: "none",
-                  zIndex: 10,
-                  opacity: 0,
-                  // CSS vars para a animação
-                  ["--tx" as string]: `${tx}px`,
-                  ["--ty" as string]: `${ty}px`,
-                  ["--rot" as string]: `${rot}deg`,
-                  // só anima quando exploding=true
-                  animation: exploding
-                    ? `celeb-explode 1.3s ease-out ${i * 40}ms both`
-                    : "none",
-                }}
-              />
-            )
-          })}
-
           {/* Bolo */}
           <button
+            ref={cakeRef}
             onClick={launchCelebration}
             className="relative z-20 transition-all active:scale-90 hover:scale-105 select-none"
             style={{
@@ -154,6 +128,48 @@ export function FinalSection() {
 
         <div className="gold-line w-32 mx-auto" />
       </div>
+
+      {/* Explosão em overlay fixo (portal) — não pode ser cortada nem coberta por nada */}
+      {burst && typeof document !== "undefined" &&
+        createPortal(
+          <div
+            key={burst.id}
+            style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 9999, overflow: "visible" }}
+          >
+            {CELEBS.map((src, i) => {
+              const angleRad = (ANGLES[i] * Math.PI) / 180
+              // distância adaptada à tela: garante que os personagens das laterais não saiam do viewport no mobile
+              const half = Math.min(window.innerWidth, window.innerHeight) / 2
+              const dist = Math.max(90, Math.min(180, half - 70))
+              const tx = Math.cos(angleRad) * dist
+              const ty = Math.sin(angleRad) * dist
+              const rot = (Math.random() - 0.5) * 60
+
+              return (
+                <img
+                  key={i}
+                  src={src}
+                  alt=""
+                  aria-hidden
+                  style={{
+                    position: "fixed",
+                    left: burst.x,
+                    top: burst.y,
+                    width: 72,
+                    height: 72,
+                    objectFit: "contain",
+                    pointerEvents: "none",
+                    ["--tx" as string]: `${tx}px`,
+                    ["--ty" as string]: `${ty}px`,
+                    ["--rot" as string]: `${rot}deg`,
+                    animation: `celeb-explode 1.4s ease-out ${i * 35}ms both`,
+                  }}
+                />
+              )
+            })}
+          </div>,
+          document.body
+        )}
     </section>
   )
 }
