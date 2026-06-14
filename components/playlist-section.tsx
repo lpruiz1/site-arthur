@@ -18,7 +18,7 @@ const PLAYLIST = [
   { title: "Maravilhosa",          artist: "Marina Sena",                    emoji: "💛", color: "#f59e0b", src: "/music/maravilhosa.m4a" },
   { title: "Saí para ver o mar",   artist: "Marina Sena & Rachel Reis",      emoji: "🌊", color: "#06b6d4", src: "/music/sai-para-ver-o-mar.m4a" },
   { title: "Carta de Maria",       artist: "Rubel & Marina Sena",            emoji: "💌", color: "#22c55e", src: "/music/carta-de-maria.m4a" },
-  { title: "Tudo pra Amar Você",  artist: "Marina Sena",                    emoji: "❤️", color: "#ef4444", src: "/music/tudo-pra-amar-voce.m4a" },
+  { title: "Tudo pra Amar Você",  artist: "Marina Sena",                    emoji: "❤️", color: "#ef4444", src: "/music/tudo-pra-amar-vc.m4a" },
 ]
 
 const SECTIONS = [
@@ -119,7 +119,7 @@ export function PlaylistSection() {
           <>
             {activeTrack && (
               <div className="w-full rounded-2xl px-5 py-4 flex items-center gap-4 animate-entrance"
-                style={{ background: `linear-gradient(135deg, ${activeTrack.color}22, ${activeTrack.color}11)`, border: `1px solid ${activeTrack.color}44` }}>
+                style={{ background: `linear-gradient(135deg, ${activeTrack.color}22, ${activeTrack.color}11)`, border: `1px solid ${activeTrack.color}44`, padding: "12px 28px" }}>
                 <span style={{ fontSize: 28, lineHeight: 1, flexShrink: 0, animation: isPlaying ? "float-gentle 1.5s ease-in-out infinite" : "none" }}>{activeTrack.emoji}</span>
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-sm truncate" style={{ color: activeTrack.color }}>{activeTrack.title}</p>
@@ -166,7 +166,7 @@ export function PlaylistSection() {
                             <p className="text-xs truncate" style={{ color: "#f5e6d355" }}>{track.artist}</p>
                           </div>
                           {playing && (
-                            <div className="flex gap-0.5 items-end" style={{ height: 16 }}>
+                            <div className="flex gap-0.5 items-end" style={{ height: 16, padding: "1px 5px" }}>
                               {[1, 2, 3, 2].map((h, j) => (
                                 <div key={j} className="w-0.5 rounded-full" style={{ height: h * 4, background: track.color, animation: `float-gentle ${0.5 + j * 0.15}s ease-in-out infinite`, animationDelay: `${j * 0.1}s` }} />
                               ))}

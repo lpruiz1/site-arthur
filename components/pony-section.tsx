@@ -110,7 +110,7 @@ function PonyQuizFullscreen({ onWin, onClose }: { onWin: () => void; onClose: ()
               {finalScore >= 4 ? "Carta da Jhon desbloqueada! 🎉" : "Precisa de 4 acertos para desbloquear."}
             </p>
             <div className="flex gap-3">
-              <button onClick={reset} className="px-6 py-4 rounded-2xl font-bold active:scale-95 transition-transform text-sm" style={{ background: "#1a1a1a", border: "1px solid #a855f733", color: "#c084fc" }}>
+              <button onClick={reset} className="px-6 py-4 rounded-2xl font-bold active:scale-95 transition-transform text-sm" style={{ background: "#1a1a1a", border: "1px solid #a855f733", color: "#c084fc", padding: "16px 41px" }}>
                 Tentar de novo
               </button>
               <button onClick={onClose} className="px-6 py-4 rounded-2xl font-bold active:scale-95 transition-transform text-sm" style={{ background: "linear-gradient(135deg, #a855f7, #7c3aed)", color: "#fff", padding: "16px 41px" }}>

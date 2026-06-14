@@ -77,7 +77,7 @@ function SequenceGameFullscreen({ onWin, onClose }: { onWin: () => void; onClose
             <p className="text-5xl">🧠</p>
             <p className="font-display text-2xl font-black" style={{ color: "#c084fc" }}>Simon Says</p>
             <p className="font-elegant italic text-base" style={{ color: "#f5e6d3aa" }}>Observe a sequência e repita!</p>
-            <button onClick={start} className="px-10 py-5 rounded-full font-bold text-lg transition-all active:scale-95" style={{ background: "#9b59b6", color: "#fff", boxShadow: "0 0 30px #9b59b644" }}>Começar!</button>
+            <button onClick={start} className="px-10 py-5 rounded-full font-bold text-lg transition-all active:scale-95" style={{ background: "#9b59b6", color: "#fff", boxShadow: "0 0 30px #9b59b644", padding: "16px 41px" }}>Começar!</button>
           </div>
         )}
         {failed && (
@@ -185,7 +185,7 @@ export function JiminSection() {
 
           <button onClick={() => setGameOpen(true)}
             className="w-full rounded-3xl py-6 flex flex-col items-center gap-3 transition-all active:scale-95 hover:opacity-90"
-            style={{ background: gameWon ? "linear-gradient(135deg, #9b59b622, #7c3aed11)" : "linear-gradient(135deg, #9b59b6, #7c3aed)", boxShadow: gameWon ? "none" : "0 0 40px #9b59b644" }}>
+            style={{ background: gameWon ? "linear-gradient(135deg, #9b59b622, #7c3aed11)" : "linear-gradient(135deg, #9b59b6, #7c3aed)", boxShadow: gameWon ? "none" : "0 0 40px #9b59b644", padding: "12px 28px" }}>
             {gameWon ? (
               <><span className="text-3xl">✅</span><p className="font-display text-lg font-black" style={{ color: "#c084fc" }}>Carta desbloqueada!</p><p className="text-sm" style={{ color: "#9b59b688" }}>Jogar de novo</p></>
             ) : (
