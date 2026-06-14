@@ -43,7 +43,7 @@ export function HeroSection() {
               paddingBottom: "0.05em", // prevents descender clipping
             }}
           >
-            Ketellen
+            Ket
           </h1>
           <p className="font-elegant text-2xl italic" style={{ color: "#ff6b9d" }}>🎂 14 de Junho 🎂</p>
         </div>

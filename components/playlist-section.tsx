@@ -137,7 +137,7 @@ export function PlaylistSection() {
               <div className="px-6 py-4 flex items-center gap-3 border-b" style={{ borderColor: "#ffffff0a" }}>
                 <span style={{ fontSize: 22, lineHeight: 1, animation: "float-gentle 2s ease-in-out infinite" }}>🎧</span>
                 <div>
-                  <p className="font-bold text-sm" style={{ color: "#f5e6d3" }}>Playlist da Ketellen</p>
+                  <p className="font-bold text-sm" style={{ color: "#f5e6d3" }}>Playlist da Ket</p>
                   <p className="text-xs" style={{ color: "#f5e6d333" }}>{PLAYLIST.length} músicas · toque para tocar</p>
                 </div>
               </div>

@@ -89,7 +89,7 @@ export function FinalSection() {
           <h2 className="font-display font-black leading-none" style={{ fontSize: "clamp(2.4rem,11vw,3.6rem)", background: "linear-gradient(135deg, #d4af7a, #fff9e6, #d4af7a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", paddingBottom: "0.05em" }}>
             Feliz Aniversário!
           </h2>
-          <p className="font-elegant italic text-xl" style={{ color: "#ff6b9d" }}>🎂 Ketellen 🎂</p>
+          <p className="font-elegant italic text-xl" style={{ color: "#ff6b9d" }}>🎂 Ket 🎂</p>
         </div>
 
         {/* Container do bolo */}
