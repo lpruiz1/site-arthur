@@ -113,7 +113,7 @@ function PonyQuizFullscreen({ onWin, onClose }: { onWin: () => void; onClose: ()
               <button onClick={reset} className="px-6 py-4 rounded-2xl font-bold active:scale-95 transition-transform text-sm" style={{ background: "#1a1a1a", border: "1px solid #a855f733", color: "#c084fc" }}>
                 Tentar de novo
               </button>
-              <button onClick={onClose} className="px-6 py-4 rounded-2xl font-bold active:scale-95 transition-transform text-sm" style={{ background: "linear-gradient(135deg, #a855f7, #7c3aed)", color: "#fff" }}>
+              <button onClick={onClose} className="px-6 py-4 rounded-2xl font-bold active:scale-95 transition-transform text-sm" style={{ background: "linear-gradient(135deg, #a855f7, #7c3aed)", color: "#fff", padding: "16px 41px" }}>
                 Voltar
               </button>
             </div>
@@ -162,7 +162,6 @@ export function PonySection() {
               className="w-full object-contain"
               style={{ maxHeight: 260, display: "block", margin: "0 auto" }}
             />
-            <div className="absolute bottom-0 left-0 right-0 h-10" style={{ background: "linear-gradient(to top, #0a0015, transparent)" }} />
           </div>
 
           {/* Botão quiz */}

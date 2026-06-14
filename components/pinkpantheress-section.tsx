@@ -112,7 +112,7 @@ function NoteGame({
             <div className="text-6xl animate-float">🎶</div>
             <p className="font-display text-3xl font-black" style={{ color }}>Perfeita!</p>
             <p className="font-elegant italic text-lg" style={{ color: "#f5e6d3aa" }}>Carta desbloqueada! Vai em 💌 Cartas para ler!</p>
-            <button onClick={onClose} className="px-8 py-4 rounded-full font-bold text-lg active:scale-95" style={{ background: color, color: "#000" }}>Voltar ✨</button>
+            <button onClick={onClose} className="px-8 py-4 rounded-full font-bold text-lg active:scale-95" style={{ background: color, color: "#000", padding: "16px 41px" }}>Voltar</button>
           </div>
         )}
         {!won && <p className="absolute bottom-4 left-0 right-0 text-center text-sm" style={{ color: `${color}44` }}>toque nas notas antes que caiam!</p>}
@@ -151,7 +151,7 @@ export function PinkPantheressSection() {
     <>
       {phase1Open && (
         <NoteGame
-          goal={12} spawnMs={600} fallSpeed={2}
+          goal={20} spawnMs={600} fallSpeed={2}
           title="🎵 Captura as Notas — Fase 1" color="#f472b6"
           gameSong="/music/pain.m4a"
           onWin={() => { setPhase1Won(true); unlockLetter("pink-game"); setPhase1Open(false) }}
@@ -160,7 +160,7 @@ export function PinkPantheressSection() {
       )}
       {phase2Open && (
         <NoteGame
-          goal={20} spawnMs={380} fallSpeed={3.2}
+          goal={28} spawnMs={380} fallSpeed={3.2}
           title="🎶 Captura as Notas — Fase 2" color="#c084fc"
           gameSong="/music/illegal.m4a"
           onWin={() => { setPhase2Won(true); unlockLetter("pink-game-2"); setPhase2Open(false) }}
@@ -216,7 +216,7 @@ export function PinkPantheressSection() {
           </div>
 
           {/* Fase 1 */}
-          <div className="w-full rounded-3xl overflow-hidden" style={{ background: "linear-gradient(135deg, #0d0d0d, #1a1a1a)", border: "1px solid #f472b61a" }}>
+          <div className="w-full rounded-3xl overflow-hidden" style={{ background: "linear-gradient(135deg, #0d0d0d, #1a1a1a)", border: "1px solid #f472b61a", padding: "12px 28px" }}>
             <div className="px-5 py-4 flex items-center justify-between border-b" style={{ borderColor: "#ffffff08" }}>
               <div className="flex items-center gap-3">
                 <span className="text-xl leading-none">🎵</span>
@@ -230,14 +230,14 @@ export function PinkPantheressSection() {
             <div className="px-5 py-4">
               <button onClick={() => setPhase1Open(true)}
                 className="w-full py-3 rounded-2xl font-bold text-sm active:scale-95 transition-all"
-                style={{ background: phase1Won ? "#f472b611" : "linear-gradient(135deg, #f472b6, #ec4899)", color: phase1Won ? "#f472b6" : "#000", border: phase1Won ? "1px solid #f472b633" : "none" }}>
+                style={{ background: phase1Won ? "#f472b611" : "linear-gradient(135deg, #f472b6, #ec4899)", color: phase1Won ? "#f472b6" : "#000", border: phase1Won ? "1px solid #f472b633" : "none", padding: "12px 28px" }}>
                 {phase1Won ? "Jogar de novo" : "▶ Jogar — desbloqueia carta do Dhionatan 💌"}
               </button>
             </div>
           </div>
 
           {/* Fase 2 — disponível sempre, mais difícil */}
-          <div className="w-full rounded-3xl overflow-hidden" style={{ background: "linear-gradient(135deg, #0d0d0d, #1a1a1a)", border: "1px solid #c084fc1a" }}>
+          <div className="w-full rounded-3xl overflow-hidden" style={{ background: "linear-gradient(135deg, #0d0d0d, #1a1a1a)", border: "1px solid #c084fc1a", padding: "12px 28px" }}>
             <div className="px-5 py-4 flex items-center justify-between border-b" style={{ borderColor: "#ffffff08" }}>
               <div className="flex items-center gap-3">
                 <span className="text-xl leading-none">🎶</span>
@@ -251,7 +251,7 @@ export function PinkPantheressSection() {
             <div className="px-5 py-4">
               <button onClick={() => setPhase2Open(true)}
                 className="w-full py-3 rounded-2xl font-bold text-sm active:scale-95 transition-all"
-                style={{ background: phase2Won ? "#c084fc11" : "linear-gradient(135deg, #c084fc, #9b59b6)", color: phase2Won ? "#c084fc" : "#000", border: phase2Won ? "1px solid #c084fc33" : "none" }}>
+                style={{ background: phase2Won ? "#c084fc11" : "linear-gradient(135deg, #c084fc, #9b59b6)", color: phase2Won ? "#c084fc" : "#000", border: phase2Won ? "1px solid #c084fc33" : "none", padding: "12px 28px" }}>
                 {phase2Won ? "Jogar de novo" : "▶ Jogar — desbloqueia carta da Ana Lívia 💌"}
               </button>
             </div>

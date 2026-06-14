@@ -93,7 +93,7 @@ function SequenceGameFullscreen({ onWin, onClose }: { onWin: () => void; onClose
             <p className="text-6xl animate-float">💜</p>
             <p className="font-display text-3xl font-black" style={{ color: "#c084fc" }}>Incrível!</p>
             <p className="font-elegant italic text-lg" style={{ color: "#f5e6d3aa" }}>Carta desbloqueada! Vai em 💌 Cartas!</p>
-            <button onClick={onClose} className="px-10 py-5 rounded-full font-bold text-lg active:scale-95" style={{ background: "#9b59b6", color: "#fff" }}>Voltar ✨</button>
+            <button onClick={onClose} className="px-10 py-5 rounded-full font-bold text-lg active:scale-95" style={{ background: "#9b59b6", color: "#fff", padding: "16px 41px" }}>Voltar</button>
           </div>
         )}
         {started && !failed && !won && (
@@ -170,7 +170,6 @@ export function JiminSection() {
                 alt="Jimin"
                 style={{ width: "100%", height: "auto", maxHeight: 340, objectFit: "contain", display: "block" }}
               />
-              <div className="absolute bottom-0 left-0 right-0 h-8 pointer-events-none" style={{ background: "linear-gradient(to top, #0d0014, transparent)" }} />
             </div>
             {/* Thumbnails */}
             <div className="flex gap-2 justify-center">

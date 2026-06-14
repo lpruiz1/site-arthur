@@ -133,7 +133,7 @@ export function PlaylistSection() {
               </div>
             )}
 
-            <div className="w-full rounded-3xl overflow-hidden" style={{ background: "linear-gradient(135deg, #0d0d0d, #1a1a1a)", border: "1px solid #d4af7a1a" }}>
+            <div className="w-full rounded-3xl overflow-hidden" style={{ background: "linear-gradient(135deg, #0d0d0d, #1a1a1a)", border: "1px solid #d4af7a1a", padding: "12px 28px" }}>
               <div className="px-6 py-4 flex items-center gap-3 border-b" style={{ borderColor: "#ffffff0a" }}>
                 <span style={{ fontSize: 22, lineHeight: 1, animation: "float-gentle 2s ease-in-out infinite" }}>🎧</span>
                 <div>
@@ -153,7 +153,7 @@ export function PlaylistSection() {
                       return (
                         <button key={i} onClick={() => handlePlay(i)}
                           className="w-full flex items-center gap-4 px-6 py-4 text-left transition-all"
-                          style={{ background: playing ? `${track.color}18` : "transparent", borderBottom: i < PLAYLIST.length - 1 ? "1px solid #ffffff06" : "none", opacity: visible ? 1 : 0, transform: visible ? "none" : "translateX(-16px)", transition: `opacity 0.4s ease ${i * 0.04}s, transform 0.4s ease ${i * 0.04}s, background 0.2s`, WebkitTapHighlightColor: "transparent" }}>
+                          style={{ background: playing ? `${track.color}18` : "transparent", borderBottom: i < PLAYLIST.length - 1 ? "1px solid #ffffff06" : "none", opacity: visible ? 1 : 0, transform: visible ? "none" : "translateX(-16px)", transition: `opacity 0.4s ease ${i * 0.04}s, transform 0.4s ease ${i * 0.04}s, background 0.2s`, WebkitTapHighlightColor: "transparent", padding: "4px 4px" }}>
                           <div className="w-7 flex items-center justify-center flex-shrink-0">
                             {playing ? <span style={{ fontSize: 16, lineHeight: 1, color: track.color }}>⏸</span> : <span style={{ fontSize: 12, color: "#ffffff33" }}>{localIdx + 1}</span>}
                           </div>

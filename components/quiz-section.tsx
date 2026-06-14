@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react"
 import { useGame } from "@/lib/game-context"
 import confetti from "canvas-confetti"
 
-// Embaralha array
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr]
   for (let i = a.length - 1; i > 0; i--) {
@@ -14,106 +13,105 @@ function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
-// Cada pergunta tem resposta certa + 3 erradas; opções são embaralhadas no render
 const QUESTIONS_POOL = [
-  // PinkPantheress — Boy's a Liar
+  // ── PinkPantheress — Boy's a Liar ──────────────────────────────────────
   {
-    artist: "PinkPantheress",
-    song: "Boy's a Liar Pt. 2",
-    emoji: "🎀",
-    hint: "Complete a letra: \"Boy's a liar, liar, liar / Boy's a liar, ___ ___\"",
-    answer: "liar, liar",
-    wrongs: ["baby, baby", "lover, lover", "fighter, fighter"],
+    artist: "PinkPantheress", song: "Boy's a Liar Pt. 2", emoji: "🎀",
+    hint: "Complete o refrão: \"The boy's a liar / The boy's a ___\"",
+    answer: "playa",
+    wrongs: ["liar", "player", "hater"],
   },
   {
-    artist: "PinkPantheress",
-    song: "Boy's a Liar Pt. 2",
-    emoji: "🎀",
-    hint: "Quem faz a parte de rap em Boy's a Liar Pt. 2?",
-    answer: "Ice Spice",
-    wrongs: ["Nicki Minaj", "Doja Cat", "Cardi B"],
-  },
-  // PinkPantheress — Just for Me
-  {
-    artist: "PinkPantheress",
-    song: "Just for Me",
-    emoji: "🩷",
-    hint: "Complete: \"You said you'd keep it ___ for me\"",
-    answer: "just",
-    wrongs: ["safe", "real", "good"],
+    artist: "PinkPantheress", song: "Boy's a Liar Pt. 2", emoji: "🎀",
+    hint: "Na letra, o que a PinkPantheress diz que faz \"only out of fear\"?",
+    answer: "Puxa o cabelo",
+    wrongs: ["Chora à noite", "Evita olhar", "Liga tarde"],
   },
   {
-    artist: "PinkPantheress",
-    song: "Just for Me",
-    emoji: "🩷",
-    hint: "\"Just for Me\" é do primeiro mixtape da PinkPantheress. Qual o nome dele?",
-    answer: "To Hell with It",
-    wrongs: ["Heaven Knows", "Fancy That", "Break It Off"],
-  },
-  // Jimin — Filter
-  {
-    artist: "Jimin (BTS)",
-    song: "Filter",
-    emoji: "💜",
-    hint: "Em Filter, Jimin canta sobre adaptar sua personalidade. Qual palavra repete no refrão?",
-    answer: "filter",
-    wrongs: ["color", "mirror", "shimmer"],
+    artist: "PinkPantheress", song: "Boy's a Liar Pt. 2", emoji: "🎀",
+    hint: "Que pergunta ela repete no pre-refrão: \"Did you ever want me? Was I ever ___?\"",
+    answer: "good enough",
+    wrongs: ["worth it", "beautiful", "what you need"],
   },
   {
-    artist: "Jimin (BTS)",
-    song: "Filter",
-    emoji: "💜",
-    hint: "Filter é do álbum Map of the Soul: 7. Em que ano foi lançado?",
-    answer: "2020",
-    wrongs: ["2019", "2021", "2018"],
+    artist: "PinkPantheress", song: "Boy's a Liar Pt. 2", emoji: "🎀",
+    hint: "\"He doesn't see ya / You're not ___ at me, boy\" — complete.",
+    answer: "looking",
+    wrongs: ["smiling", "arriving", "waiting"],
   },
-  // Jimin — Like Crazy
+  // ── PinkPantheress — Pain ───────────────────────────────────────────────
   {
-    artist: "Jimin",
-    song: "Like Crazy",
-    emoji: "🌸",
-    hint: "Like Crazy foi o primeiro single solo de um artista coreano a estrear em qual posição no Billboard Hot 100?",
-    answer: "#1",
-    wrongs: ["#3", "#5", "#10"],
+    artist: "PinkPantheress", song: "Pain", emoji: "💫",
+    hint: "Pain é do álbum de estreia da PinkPantheress. Qual o nome?",
+    answer: "Heaven Knows",
+    wrongs: ["To Hell with It", "Fancy That", "Take Me Home"],
   },
+  // ── Jimin — Filter ─────────────────────────────────────────────────────
   {
-    artist: "Jimin",
-    song: "Like Crazy",
-    emoji: "🌸",
-    hint: "Like Crazy é do álbum solo de estreia do Jimin. Qual o nome do álbum?",
-    answer: "FACE",
-    wrongs: ["MUSE", "VIBE", "WHO"],
-  },
-  // Marina Sena — Por Supuesto
-  {
-    artist: "Marina Sena",
-    song: "Por Supuesto",
-    emoji: "🔥",
-    hint: "\"Por supuesto\" é uma expressão em qual idioma?",
-    answer: "Espanhol",
-    wrongs: ["Português", "Italiano", "Francês"],
+    artist: "Jimin (BTS)", song: "Filter", emoji: "💜",
+    hint: "Complete o refrão de Filter: \"Mix the colors in the palette, ___ your filter\"",
+    answer: "pick",
+    wrongs: ["find", "choose", "set"],
   },
   {
-    artist: "Marina Sena",
-    song: "Por Supuesto",
-    emoji: "🔥",
-    hint: "Por Supuesto é do álbum de estreia da Marina Sena. Qual o nome?",
-    answer: "De Primeira",
-    wrongs: ["Vício Inerente", "Coisas Naturais", "Maravilhosa"],
+    artist: "Jimin (BTS)", song: "Filter", emoji: "💜",
+    hint: "No verso 1 de Filter, o que Jimin pede que a pessoa faça? \"Put your ___ down\"",
+    answer: "phone",
+    wrongs: ["head", "guard", "walls"],
   },
-  // Marina Sena — Maravilhosa
   {
-    artist: "Marina Sena",
-    song: "Maravilhosa",
-    emoji: "💛",
-    hint: "Maravilhosa é do segundo álbum da Marina Sena. Qual o nome?",
-    answer: "Vício Inerente",
-    wrongs: ["De Primeira", "Coisas Naturais", "MARINADA"],
+    artist: "Jimin (BTS)", song: "Filter", emoji: "💜",
+    hint: "No pre-refrão de Filter: \"I'll take you to a whole new ___\"",
+    answer: "world",
+    wrongs: ["place", "dream", "stage"],
+  },
+  // ── Jimin — Like Crazy ─────────────────────────────────────────────────
+  {
+    artist: "Jimin", song: "Like Crazy", emoji: "🌸",
+    hint: "Complete o refrão: \"I'd rather be lost in the ___, lost in the lights\"",
+    answer: "lights",
+    wrongs: ["night", "crowd", "haze"],
+  },
+  {
+    artist: "Jimin", song: "Like Crazy", emoji: "🌸",
+    hint: "\"Each night, you spin me up high / ___ on ice\" — complete.",
+    answer: "Emotions",
+    wrongs: ["Feelings", "Memories", "Silence"],
+  },
+  {
+    artist: "Jimin", song: "Like Crazy", emoji: "🌸",
+    hint: "No verso 2: \"Now, I sink down, all alone away / Where am I? A dark ___ clouding up my eyes\"",
+    answer: "haze",
+    wrongs: ["cloud", "fog", "wave"],
+  },
+  // ── Marina Sena — Por Supuesto ─────────────────────────────────────────
+  {
+    artist: "Marina Sena", song: "Por Supuesto", emoji: "🔥",
+    hint: "Complete o refrão: \"Eu já deitei no seu ___\"",
+    answer: "sorriso",
+    wrongs: ["coração", "olhar", "silêncio"],
+  },
+  {
+    artist: "Marina Sena", song: "Por Supuesto", emoji: "🔥",
+    hint: "\"Solta esse seu muro / E põe os pés ___\"",
+    answer: "nessa viagem",
+    wrongs: ["no chão", "no ritmo", "na dança"],
+  },
+  {
+    artist: "Marina Sena", song: "Por Supuesto", emoji: "🔥",
+    hint: "No verso 3: \"Por supuesto que não transpareço / Mas eu já ___ um terço hoje\"",
+    answer: "rezei",
+    wrongs: ["quebrei", "cantei", "sonhei"],
+  },
+  {
+    artist: "Marina Sena", song: "Por Supuesto", emoji: "🔥",
+    hint: "Qual é o sonho feliz repetido no final da música?",
+    answer: "Chegar e já cair no mar",
+    wrongs: ["Voltar e te encontrar", "Cantar e não parar", "Sonhar e acordar"],
   },
 ]
 
 function buildRound() {
-  // Pega 4 perguntas aleatórias do pool
   return shuffle(QUESTIONS_POOL).slice(0, 4).map(q => ({
     ...q,
     options: shuffle([q.answer, ...q.wrongs]),
@@ -193,9 +191,7 @@ function QuizGameFullscreen({ onWin, onClose }: { onWin: () => void; onClose: ()
             <p className="font-elegant italic text-lg leading-relaxed" style={{ color: "#f5e6d3aa" }}>
               {finalScore >= 3 ? "Carta desbloqueada! Vai em 💌 Cartas!" : "Precisa de 3 acertos para desbloquear."}
             </p>
-            <div className="flex gap-3">
-              <button onClick={onClose} className="px-6 py-4 rounded-2xl font-bold active:scale-95 transition-transform text-sm" style={{ background: "#d4af7a", color: "#000" }}>Voltar</button>
-            </div>
+            <button onClick={onClose} className="px-6 py-4 rounded-2xl font-bold active:scale-95 transition-transform text-sm" style={{ background: "#d4af7a", color: "#000", padding: "16px 41px" }}>Voltar</button>
           </div>
         )}
       </div>
@@ -222,7 +218,6 @@ export function QuizSection() {
 
       <section ref={ref} className="min-h-screen flex flex-col items-center justify-center py-20 px-6 relative" style={{ background: "linear-gradient(180deg, #000 0%, #080510 50%, #000 100%)" }}>
         <div className="gold-line w-full absolute top-0" />
-
         <div className={`w-full max-w-sm mx-auto flex flex-col items-center gap-8 transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"}`}>
           <div className="text-center space-y-2 w-full">
             <span className="font-elegant italic text-sm tracking-widest uppercase" style={{ color: "#d4af7a66" }}>seção 3</span>
@@ -234,13 +229,9 @@ export function QuizSection() {
 
           <div className="w-full rounded-3xl overflow-hidden" style={{ background: "linear-gradient(135deg, #0d0d0d, #181818)", border: "1px solid #d4af7a1a" }}>
             <div className="px-6 py-4 border-b" style={{ borderColor: "#ffffff08" }}>
-              <p className="font-bold text-sm" style={{ color: "#f5e6d399" }}>Perguntas sobre as músicas</p>
+              <p className="font-bold text-sm" style={{ color: "#f5e6d399" }}>Complete as letras e detalhes das músicas</p>
             </div>
-            {[
-              { emoji: "🎀", name: "PinkPantheress" },
-              { emoji: "💜", name: "Jimin" },
-              { emoji: "🔥", name: "Marina Sena" },
-            ].map((item, i) => (
+            {[{ emoji: "🎀", name: "PinkPantheress" }, { emoji: "💜", name: "Jimin" }, { emoji: "🔥", name: "Marina Sena" }].map((item, i) => (
               <div key={i} className="flex items-center gap-4 px-6 py-4 border-b last:border-0" style={{ borderColor: "#ffffff07" }}>
                 <span className="text-xl leading-none flex-shrink-0">{item.emoji}</span>
                 <p className="font-bold text-sm" style={{ color: "#f5e6d3cc" }}>{item.name}</p>
@@ -248,8 +239,7 @@ export function QuizSection() {
             ))}
           </div>
 
-          <button onClick={() => setGameOpen(true)}
-            className="w-full rounded-3xl flex flex-col items-center gap-3 transition-all active:scale-95"
+          <button onClick={() => setGameOpen(true)} className="w-full rounded-3xl flex flex-col items-center gap-3 transition-all active:scale-95"
             style={{ padding: "28px 24px", background: gameWon ? "linear-gradient(135deg, #d4af7a1a, #d4af7a0d)" : "linear-gradient(135deg, #d4af7a, #c9a96e)", boxShadow: gameWon ? "none" : "0 0 40px #d4af7a2a", border: gameWon ? "1px solid #d4af7a33" : "none", WebkitTapHighlightColor: "transparent" }}>
             {gameWon ? (
               <><span className="text-3xl leading-none">✅</span><p className="font-display text-lg font-black leading-none" style={{ color: "#d4af7a" }}>Carta desbloqueada!</p><p className="text-sm" style={{ color: "#d4af7a55" }}>Jogar de novo</p></>
@@ -258,7 +248,6 @@ export function QuizSection() {
             )}
           </button>
         </div>
-
         <div className="gold-line w-full absolute bottom-0" />
       </section>
     </>

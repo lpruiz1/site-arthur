@@ -10,7 +10,7 @@ function PetGameFullscreen({ onWin, onClose }: { onWin: () => void; onClose: () 
   const [happy, setHappy] = useState(false)
   const [won, setWon] = useState(false)
   const [popping, setPopping] = useState(false)
-  const timerRef = useRef<NodeJS.Timeout>()
+  const timerRef = useRef<ReturnType<typeof setTimeout>>()
   const wonRef = useRef(false)
 
   const pet = () => {
@@ -46,10 +46,11 @@ function PetGameFullscreen({ onWin, onClose }: { onWin: () => void; onClose: () 
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center gap-8 px-6">
+      {/* Corpo — sempre flex-col items-center justify-center, seja antes ou depois de ganhar */}
+      <div className="flex-1 flex flex-col items-center justify-center gap-8 px-6 text-center">
         {!won ? (
           <>
-            <p className="font-elegant italic text-base text-center leading-relaxed" style={{ color: "#f5e6d399" }}>
+            <p className="font-elegant italic text-base leading-relaxed" style={{ color: "#f5e6d399" }}>
               {pets === 0 ? "Toque nela para fazer carinho! 🐱" : pets < 10 ? "Ela está gostando... continua!" : pets < 20 ? "Ronron... 😸" : "Quase lá! Ela tá amando!"}
             </p>
             <button
@@ -57,21 +58,23 @@ function PetGameFullscreen({ onWin, onClose }: { onWin: () => void; onClose: () 
               className="relative select-none outline-none"
               style={{ transform: popping ? "scale(1.09)" : "scale(1)", transition: "transform 0.12s ease", cursor: "pointer", WebkitTapHighlightColor: "transparent" }}
             >
-              <img src={happy ? "/cat-happy.png" : "/cat-pet.png"} alt="Gatinha" style={{ width: 210, height: 210, objectFit: "contain", borderRadius: 24, filter: "drop-shadow(0 0 24px #ff6b9d33)", imageRendering: "auto" }} />
+              <img src={happy ? "/cat-happy.png" : "/cat-pet.png"} alt="Gatinha"
+                style={{ width: 210, height: 210, objectFit: "contain", borderRadius: 24, filter: "drop-shadow(0 0 24px #ff6b9d33)", imageRendering: "auto", display: "block" }} />
               {popping && <div className="absolute -top-5 -right-5 text-3xl pointer-events-none leading-none" style={{ animation: "entrance-burst 0.3s ease forwards" }}>✨</div>}
               {popping && <div className="absolute -top-4 -left-5 text-2xl pointer-events-none leading-none" style={{ animation: "entrance-burst 0.3s ease forwards", animationDelay: "0.05s" }}>💕</div>}
             </button>
             <p className="text-sm" style={{ color: "#ff6b9d22" }}>toque repetidamente!</p>
           </>
         ) : (
-          <div className="text-center space-y-5 px-4">
-            <img src="/cat-happy.png" alt="Gatinha feliz" className="animate-float mx-auto" style={{ width: 170, height: 170, objectFit: "contain", filter: "drop-shadow(0 0 30px #ff6b9d88)" }} />
+          <>
+            <img src="/cat-happy.png" alt="Gatinha feliz" className="animate-float"
+              style={{ width: 170, height: 170, objectFit: "contain", filter: "drop-shadow(0 0 30px #ff6b9d88)", display: "block" }} />
             <p className="font-display text-3xl font-black leading-tight" style={{ color: "#ff6b9d" }}>Ela adorou! 🐱💕</p>
             <p className="font-elegant italic text-lg leading-relaxed" style={{ color: "#f5e6d3aa" }}>Carta desbloqueada! Vai em 💌 Cartas para ler!</p>
-            <button onClick={onClose} className="px-10 py-4 rounded-2xl font-bold text-lg active:scale-95 transition-transform" style={{ background: "#ff6b9d", color: "#000" }}>
-              Voltar ✨
+            <button onClick={onClose} className="px-10 py-4 rounded-2xl font-bold text-lg active:scale-95 transition-transform" style={{ background: "#ff6b9d", color: "#000", padding: "16px 41px" }}>
+                Voltar
             </button>
-          </div>
+          </>
         )}
       </div>
     </div>
@@ -97,7 +100,6 @@ export function CatSection() {
 
       <section ref={ref} className="min-h-screen flex flex-col items-center justify-center py-20 px-6 relative" style={{ background: "linear-gradient(180deg, #000 0%, #1a0010 50%, #000 100%)" }}>
         <div className="gold-line w-full absolute top-0" />
-
         <div className={`w-full max-w-sm mx-auto flex flex-col items-center gap-8 transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"}`}>
           <div className="text-center space-y-2 w-full">
             <span className="font-elegant italic text-sm tracking-widest uppercase" style={{ color: "#ff6b9d66" }}>seção 2</span>
@@ -106,38 +108,18 @@ export function CatSection() {
             </h2>
             <p className="font-elegant italic text-base" style={{ color: "#ff6b9d77" }}>🐱 a bichinha mais fofa do mundo</p>
           </div>
-
           <div className="w-full rounded-3xl flex items-center justify-center py-8" style={{ background: "linear-gradient(135deg, #1a000f, #0d0008)", border: "1px solid #ff6b9d22" }}>
             <img src="/cat-pet.png" alt="Gatinha" className="animate-float" style={{ width: 170, height: 170, objectFit: "contain", filter: "drop-shadow(0 0 24px #ff6b9d33)" }} />
           </div>
-
-          <button
-            onClick={() => setGameOpen(true)}
-            className="w-full rounded-3xl flex flex-col items-center gap-3 transition-all active:scale-95"
-            style={{
-              padding: "28px 24px",
-              background: gameWon ? "linear-gradient(135deg, #ff6b9d1a, #ffb3d10d)" : "linear-gradient(135deg, #ff6b9d, #ec4899)",
-              boxShadow: gameWon ? "none" : "0 0 40px #ff6b9d33",
-              border: gameWon ? "1px solid #ff6b9d33" : "none",
-              WebkitTapHighlightColor: "transparent",
-            }}
-          >
+          <button onClick={() => setGameOpen(true)} className="w-full rounded-3xl flex flex-col items-center gap-3 transition-all active:scale-95"
+            style={{ padding: "28px 24px", background: gameWon ? "linear-gradient(135deg, #ff6b9d1a, #ffb3d10d)" : "linear-gradient(135deg, #ff6b9d, #ec4899)", boxShadow: gameWon ? "none" : "0 0 40px #ff6b9d33", border: gameWon ? "1px solid #ff6b9d33" : "none", WebkitTapHighlightColor: "transparent" }}>
             {gameWon ? (
-              <>
-                <span className="text-3xl leading-none">✅</span>
-                <p className="font-display text-lg font-black leading-none" style={{ color: "#ff6b9d" }}>Carta desbloqueada!</p>
-                <p className="text-sm" style={{ color: "#ff6b9d55" }}>Fazer carinho de novo 🐾</p>
-              </>
+              <><span className="text-3xl leading-none">✅</span><p className="font-display text-lg font-black leading-none" style={{ color: "#ff6b9d" }}>Carta desbloqueada!</p><p className="text-sm" style={{ color: "#ff6b9d55" }}>Fazer carinho de novo 🐾</p></>
             ) : (
-              <>
-                <span className="text-4xl leading-none">🐾</span>
-                <p className="font-display text-xl font-black leading-none" style={{ color: "#000" }}>Fazer carinho</p>
-                <p className="text-sm" style={{ color: "#00000055" }}>30 carinhos para desbloquear uma carta 💌</p>
-              </>
+              <><span className="text-4xl leading-none">🐾</span><p className="font-display text-xl font-black leading-none" style={{ color: "#000" }}>Fazer carinho</p><p className="text-sm" style={{ color: "#00000055" }}>30 carinhos para desbloquear uma carta 💌</p></>
             )}
           </button>
         </div>
-
         <div className="gold-line w-full absolute bottom-0" />
       </section>
     </>
