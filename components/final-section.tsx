@@ -6,16 +6,16 @@ import confetti from "canvas-confetti"
 import { useAudio } from "@/lib/audio-context"
 
 const CELEBS = [
-  "/celebs/celeb1.png",
-  "/celebs/celeb2.png",
-  "/celebs/celeb3.png",
-  "/celebs/celeb4.png",
-  "/celebs/celeb5.png",
-  "/celebs/celeb6.png",
-  "/celebs/celeb7.png",
-  "/celebs/celeb8.png",
-  "/celebs/celeb9.png",
-  "/celebs/celeb10.png",
+  "/celebs/Celeb1.png",
+  "/celebs/Celeb2.png",
+  "/celebs/Celeb3.png",
+  "/celebs/Celeb4.png",
+  "/celebs/Celeb5.png",
+  "/celebs/Celeb6.png",
+  "/celebs/Celeb7.png",
+  "/celebs/Celeb8.png",
+  "/celebs/Celeb9.png",
+  "/celebs/Celeb10.png",
 ]
 
 // Ângulos de explosão para cada personagem (em graus, 0 = direita)
