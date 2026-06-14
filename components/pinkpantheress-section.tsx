@@ -199,11 +199,6 @@ export function PinkPantheressSection() {
             <button onClick={() => findEgg(0)} className="absolute top-3 right-3 text-lg transition-all" style={{ opacity: eggs[0].found ? 1 : 0.08 }}>
               {eggs[0].found ? "💎" : "✦"}
             </button>
-            {/* Overlay nome */}
-            <div className="absolute bottom-0 left-0 right-0 px-5 py-4" style={{ background: "linear-gradient(to top, #0d0010 70%, transparent)" }}>
-              <p className="font-display text-xl font-bold leading-tight" style={{ color: "#f472b6" }}>PinkPantheress</p>
-              <p className="font-elegant italic text-sm mt-0.5" style={{ color: "#f5e6d399" }}>artista britânica · drum & bass · UK garage</p>
-            </div>
           </div>
 
           {/* Easter eggs visíveis */}
