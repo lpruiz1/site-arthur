@@ -65,7 +65,7 @@ export function FinalSection() {
 
     setBurst({ x, y, id: Date.now() }) // id novo => remonta => animação reinicia em todo toque
     clearTimeout(timeoutRef.current)
-    timeoutRef.current = setTimeout(() => setBurst(null), 1900)
+    timeoutRef.current = setTimeout(() => setBurst(null), 2900)
   }
 
   return (
@@ -121,9 +121,8 @@ export function FinalSection() {
         <div className="w-full rounded-3xl p-6 space-y-4 text-center" style={{ background: "linear-gradient(135deg, #1a0010, #0d0005)", border: "1px solid #d4af7a33", boxShadow: "0 0 40px #d4af7a11" }}>
           <p className="font-display text-xl font-bold" style={{ color: "#d4af7a" }}>Que esse ano seja incrível</p>
           <p className="font-elegant italic text-base leading-relaxed" style={{ color: "#f5e6d3aa" }}>
-            Cheio de momentos inesquecíveis, e de toda a felicidade que você merece. 💛
+            Cheio de momentos inesquecíveis, e de toda a felicidade que você merece.
           </p>
-          <p className="font-elegant italic text-sm" style={{ color: "#ff6b9d88" }}>Com muito amor, de quem fez esse site pra você ✨</p>
         </div>
 
         <div className="gold-line w-32 mx-auto" />
@@ -162,7 +161,7 @@ export function FinalSection() {
                     ["--tx" as string]: `${tx}px`,
                     ["--ty" as string]: `${ty}px`,
                     ["--rot" as string]: `${rot}deg`,
-                    animation: `celeb-explode 1.4s ease-out ${i * 35}ms both`,
+                    animation: `celeb-explode 2.5s ease-out ${i * 35}ms both`,
                   }}
                 />
               )
